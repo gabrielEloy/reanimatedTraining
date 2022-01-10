@@ -1,36 +1,22 @@
-import React, {useEffect} from 'react'
-import { View, Text, StyleSheet} from 'react-native'
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated'
+import * as React from 'react';
+import { View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Opacity from './src/modules/Opacity';
+import Home from './src/modules/Home';
 
-const SIZE = 100;
 
+const Stack = createNativeStackNavigator();
 
-const App = () => {
-  const progress = useSharedValue(1);
-
-  const reanimatedStyle = useAnimatedStyle(() => ({
-    opacity: progress.value
-  }), []);
-
-  useEffect(() => {
-    progress.value = withTiming(0, {duration: 5000});
-  }, [])
+function App() {
   return (
-    <View style={styles.main}>
-      <Animated.View style={[{
-        height: SIZE, width: SIZE,backgroundColor: 'red',
-      }, reanimatedStyle]} />
-    </View>
-  )
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="home" component={Home} />
+        <Stack.Screen name="opacity" component={Opacity} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
 
-
-const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  }
-})
-
-export default App
+export default App;
